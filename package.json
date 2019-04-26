@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "mockjs": "^1.0.1-beta3"
+  },
+  "devDependencies": {
+    "json-server": "^0.14.2"
+  }
+}

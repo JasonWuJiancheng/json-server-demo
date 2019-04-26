@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ajax-jsonserver</title>
+    <script type="text/javascript" src="./js/jquery-1.12.4.js"></script>
+</head>
+<body>
+<!-- get请求演示部分 -->
+<h2>获取所有水果信息(get)</h2>
+<button id="getBtn">get</button>
+<div id="showData"></div>
+<hr/>
+<!-- post请求演示部分 -->
+<h2>添加水果(post)</h2>
+水果：<input id="fruitName" type="text" name="fruitName"><br>
+价格：<input id="fruitPrice" type="text" name="fruitPrice"><br>
+<button id="postBtn">add</button>
+<hr/>
+<!-- put请求演示部分 -->
+<h2>更新水果价格(put)</h2>
+水果id：<input id="putId" type="text" name="fruitId"><br>
+价格：<input id="putPrice" type="text" name="fruitPrice"><br>
+<button id="putBtn">put</button>
+<hr/>
+<!-- patch请求演示部分 -->
+<h2>更新水果价格(patch)</h2>
+水果id：<input id="patchId" type="text" name="patchId"><br>
+价格：<input id="patchPrice" type="text" name="patchPrice"><br>
+<button id="patchBtn">patch</button>
+<hr/>
+<!-- delete请求演示部分 -->
+<h2>删除水果(delete)</h2>
+水果id：<input id="delId" type="text" name="delName"><br>
+<button id="delOne">del</button>
+<hr/>
+<!-- 联查 -->
+<h2>根据水果名更新水果价格</h2>
+水果：<input id="editName" type="text" name="fruitName"><br>
+价格：<input id="editPrice" type="text" name="fruitPrice"><br>
+<button id="editBtn">edit</button>
+
+<script type="text/javascript">
+//使用get请求获取数据
+$("#getBtn").click(function(){
+    $.ajax({
+        type: 'get',
+        url: 'http://localhost:3000/fruits',
+        success: function(data){
+            // data 对象数组
+            var h = ""
+            h += "<table border='1'>"
+            h += "<thead><th>ID</th><th>name</th><th>price</th></thead>"
+            h += "<tbody>"
+            for(var i=0; i<data.length; i++){
+                var o = data[i]
+                h += "<tr>"
+                h += "<td>" + o.id + "</td><td>" + o.name + "</td><td>" + o.price + "</td>"
+                h += "</tr>"
+            }
+            h += "<tbody>"
+            h += "</table>"
+            $("#showData").empty().append(h)
+        },
+        error:function(){
+            alert("get error")
+        }
+    })
+})
+//使用post请求新建资源
+$("#postBtn").click(function(){
+    $.ajax({
+        type: 'post',
+        url: 'http://localhost:3000/fruits',
+        data: {
+            price: $("#fruitPrice").val()
+        },
+        success: function(data){
+            console.log("post success")
+        },
+        error:function(){
+            alert("post error")
+        }
+    })
+})
+//使用put更新资源
+$("#putBtn").click(function(){
+    $.ajax({
+        type: 'put',
+        url: 'http://localhost:3000/fruits/'+ $("#putId").val(),
+        data: {
+            price: $("#putPrice").val()
+        },
+        success: function(data){
+            console.log("put success")
+        },
+        error:function(){
+            alert("put error")
+        }
+    })
+})
+//使用patch更新资源
+$("#patchBtn").click(function(){
+    $.ajax({
+        type: 'patch',
+        url: 'http://localhost:3000/fruits/'+ $("#patchId").val(),
+        data: {
+            price: $("#patchPrice").val()
+        },
+        success: function(data){
+            console.log("patch success")
+        },
+        error:function(){
+            alert("patch error")
+        }
+    })
+})
+//使用delete请求删除数据
+$("#delOne").click(function(){
+    $.ajax({
+        type: 'delete',
+        url: 'http://localhost:3000/fruits/'+ $("#delId").val(),
+        //url: 'https://www.easy-mock.com/mock/5cbeee1971e87e7b3ab474c3/api/fruits/'+$("#delId").val(),
+        success: function(data){
+            console.log("del success")
+            console.log(JSON.stringify(data,null,2))
+        },
+        error:function(){
+            alert("del error")
+        }
+    })
+})
+
+//通过水果名更新水果价格
+$("#editBtn").click(function(){
+    getFun($("#editName").val(),patchFun)
+})
+
+function getFun(name,f){
+    //利用get请求 通过name查询id
+    $.ajax({
+        type: 'get',
+        url: 'http://localhost:3000/fruits'+'?name='+name,
+        success: function(data){
+            // data 对象数组
+            console.log(data[0]);
+            if (typeof f == "function") f.call(this,data[0].id) 
+        },
+        error:function(){
+            alert("error")
+        }
+    })
+}
+
+function patchFun(id){
+    //利用patch请求 通过id修改信息
+        $.ajax({
+        type: 'patch', 
+        url: 'http://localhost:3000/fruits/'+id,
+        data: {
+            price: $("#editPrice").val()
+        },
+        success: function(data){
+            console.log("success",data)
+        },
+        error:function(){
+            alert("error")
+        }
+    })
+}
+</script>
+</body>
+</html>

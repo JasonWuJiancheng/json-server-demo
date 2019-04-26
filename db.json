@@ -1,0 +1,60 @@
+{
+  "fruits": [
+    {
+      "id": 1,
+      "name": "apple",
+      "price": "5.08"
+    },
+    {
+      "id": 2,
+      "name": "orange",
+      "price": "6.18"
+    },
+    {
+      "id": 3,
+      "name": "banana",
+      "price": "5.48"
+    },
+    {
+      "id": 4,
+      "name": "watermelon",
+      "price": "2.20"
+    },
+    {
+      "id": 5,
+      "name": "strawberry",
+      "price": "6.66"
+    },
+    {
+      "name": "fruit7",
+      "price": "6.66",
+      "id": 7
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": {
+        "username": "admin",
+        "nickname": "JasonWu"
+      },
+      "pwd": "123456",
+      "info": [
+        "13330938667",
+        "358190915@qq.com"
+      ]
+    },
+    {
+      "id": 2,
+      "name": {
+        "username": "normal",
+        "nickname": "WeiZhang"
+      },
+      "pwd": "666666",
+      "info": [
+        "18123438010",
+        "604297964@qq.com"
+      ]
+    }
+  ]
+}
